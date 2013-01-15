@@ -1,0 +1,22 @@
+#!/bin/bash
+
+PROBLEM=$1
+test -z $1 && echo "usage: test <problem>" && exit 1
+
+make "$PROBLEM"
+test $? != 0 && exit 1
+
+CASE=1
+while test -f "${PROBLEM}.in${CASE}"; do
+  echo -n "Test ${CASE}: "
+  OUTPUT=`mktemp run.XXXXXXXXXX`
+  "./${PROBLEM}" < "${PROBLEM}.in${CASE}" 1> "${OUTPUT}"
+  if diff "${OUTPUT}" "${PROBLEM}.out${CASE}" -b &>/dev/null; then
+    echo "PASSED."
+  else
+    echo "FAIL."
+    diff "${OUTPUT}" "${PROBLEM}.out${CASE}" -by
+  fi
+  rm -f "${OUTPUT}"
+  ((CASE=$CASE+1))
+done

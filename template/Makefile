@@ -1,0 +1,1 @@
+CXXFLAGS=-lm -Wall -ggdb

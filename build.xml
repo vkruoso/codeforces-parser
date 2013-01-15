@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="codeforces-parser" default="main">
+
+    <target name="main">
+        <pharpackage destfile="build/cf-parser.phar" stub="build/phar-stub.php" basedir=".">
+            <fileset dir=".">
+                <include name="src/**/*.php" />
+                <include name="vendor/*.php" />
+                <include name="vendor/composer/**" />
+                <include name="vendor/guzzle/guzzle/src/**/*.php" />
+                <include name="vendor/guzzle/guzzle/**/*.pem" />
+                <include name="vendor/symfony/event-dispatcher/**/*.php" />
+            </fileset>
+            <metadata>
+                <element name="link" value="http://www.inf.ufpr.br/vkruoso/codeforces-parser" />
+            </metadata>
+        </pharpackage>
+    </target>
+
+</project>

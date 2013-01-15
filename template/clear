@@ -1,0 +1,12 @@
+#!/bin/bash
+
+FILES=`ls *.cpp`
+for FILE in ${FILES}; do
+  PROBLEM=`basename ${FILE} .cpp`
+  test -f "${PROBLEM}" && rm -f "${PROBLEM}"
+  rm -f ./${PROBLEM}.in* ./${PROBLEM}.out* &>/dev/null
+  rm -Rf ./${PROBLEM}.dSYM &>/dev/null
+done
+
+# itself
+rm Makefile test clear
