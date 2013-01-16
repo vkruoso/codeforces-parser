@@ -164,7 +164,7 @@ class Parser
         $raw = "";
         for($i=0;$i<$data->childNodes->length;$i++){
             $child = $data->childNodes->item($i);
-            if($child instanceof DOMText)
+            if($child instanceof \DOMText)
                 $raw .= $child->nodeValue."\n";
         }
 
