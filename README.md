@@ -8,7 +8,7 @@ Usage / How it works
 
     cf-parser <contest-id> <contest-folder> [<problem-list>]
     
-The tool will create inside the `contest-folder` folder all the files needed for your contest. The wool works like this:
+The tool will create inside the `contest-folder` folder all the files needed for your contest. The tool works like this:
 
   - If the problem list has not been provided, it will try to discover the problems from the contest.
   - Downloads the problems pages in parallel.
@@ -88,6 +88,6 @@ The tool will report the problems it will retrieve. If you specify the problems 
 Alerts
 ------
 
-This tool is not 100% done. It will fail hard in case of errors. If the program outputs something different than the expected, is not creating the input/output files correctly or is taking too long to finish, just stop it and wun it again.
+This tool is not 100% done. It will fail hard in case of errors. If the program outputs something different than the expected, is not creating the input/output files correctly or is taking too long to finish, just stop it and run it again.
 
 It's not a problem to run the program more than one time. For example, if the input/output of a problem has been changed durring the contest, just run the tool again and it will be updated. But keep in mind that any code will not be overwriten.
