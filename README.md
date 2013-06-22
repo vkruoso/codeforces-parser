@@ -64,12 +64,12 @@ Create your `template` folder and copy the `test` and `clean` scripts (from this
 The tool has been packed into a PHP archive file. This archive includes all the dependencies, so nothing else is needed. Download the PHAR file and simply run it. A sample usage whould be:
 
     $ mkdir round161div2
-    $ wget https://github.com/vkruoso/codeforces-parser/blob/master/build/cf-parser.phar?raw=true
+    $ wget https://raw.github.com/vkruoso/codeforces-parser/master/build/cf-parser.phar
     $ php cf-parser.phar 263 round161div2
     
 Or you can install it in your PATH doing:
 
-    $ wget https://github.com/vkruoso/codeforces-parser/blob/master/build/cf-parser.phar?raw=true
+    $ wget https://raw.github.com/vkruoso/codeforces-parser/master/build/cf-parser.phar
     $ sudo mv cf-parser.phar /usr/local/bin/cf-parser
     $ sudo chmod +x /usr/local/bin/cf-parser
     
