@@ -1,6 +1,8 @@
 Codeforces Parser
 =================
 
+[![Build Status](https://travis-ci.org/vkruoso/codeforces-parser.png?branch=master)](https://travis-ci.org/vkruoso/codeforces-parser)
+
 A tool that allows you to automatically setup a contest environment.
 
 Usage / How it works
