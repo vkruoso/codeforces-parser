@@ -10,6 +10,7 @@
                 <include name="vendor/composer/**" />
                 <include name="vendor/guzzle/guzzle/src/**/*.php" />
                 <include name="vendor/guzzle/guzzle/**/*.pem" />
+                <include name="vendor/guzzle/guzzle/**/*.pem.md5" />
                 <include name="vendor/symfony/event-dispatcher/**/*.php" />
             </fileset>
             <metadata>

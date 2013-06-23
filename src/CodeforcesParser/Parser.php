@@ -31,6 +31,18 @@ class Parser
     protected $basePath;
 
     /**
+     * @var string The language in which the coder will write
+     */
+    protected $language;
+
+    /**
+     * @var array The languages extenstions accepted
+     */
+    protected $languages = array(
+      'c', 'cpp', 'java', 'pas', 'php', 'js', 'py'
+    );
+
+    /**
      * Parser constructor
      *
      * If $problems is null it tries to auto discover the problems in the
@@ -40,13 +52,14 @@ class Parser
      * @param array  $problems  Problems to be parsed
      * @param string $basePath  The path to write files
      */
-    public function __construct($contestId,$problems=null,$basePath=".")
+    public function __construct($contestId,$language,$basePath=".",$problems=null)
     {
         $this->guzzleClient = new \Guzzle\Http\Client("http://www.codeforces.com");
         $this->DOMDocument = new \DOMDocument();
         $this->contestId = $contestId;
-        $this->problems = ($problems)?$problems:$this->discoverProblems();
+        $this->problems = $problems;
         $this->basePath = $basePath;
+        $this->language = $language;
     }
 
     /**
@@ -60,17 +73,35 @@ class Parser
      */
     public function parse()
     {
+        // check language
+        if(!array_search($this->language,$this->languages)){
+          print "Unsupported language: ".$this->language.".\n";
+          return false;
+        }
+
+        // discover problems if necessary
+        if($this->problems==null) $this->problems = $this->discoverProblems();
+
         print "Retrieving problems: ".implode($this->problems,', ').".\n";
         $problems = $this->getProblems();
         foreach($problems as $problem){
             $inout = $this->parseProblem($problem['problem'],$problem['html']);
             $this->createFiles($problem['problem'],$inout);
         }
-        copy('template/Makefile',$this->basePath.'/Makefile');
-        copy('template/test',$this->basePath.'/test');
-        copy('template/clear',$this->basePath.'/clear');
-        chmod($this->basePath.'/test',0744);
-        chmod($this->basePath.'/clear',0744);
+
+        // copy template files
+        $handle = opendir('template/');
+        if(!$handle) return false;
+        while(false!=($entry=readdir($handle))){
+            if($entry=='.' or $entry=='..') continue;
+
+            $ext = pathinfo($entry,PATHINFO_EXTENSION);
+            if($ext!='') continue;
+
+            copy('template/'.$entry,$this->basePath.'/'.$entry);
+            if($entry=='test' or $entry=='clear')
+                chmod($this->basePath.'/'.$entry,0744);
+        }
 
         return true;
     }
@@ -174,7 +205,7 @@ class Parser
     /**
      * Create all files related to the problem
      *
-     * Create the input and output and copy the model program
+     * Creates all input and output files, as well as the model program
      *
      * @param string $problem The problem name
      * @param array  $inout   Array with input and output as strings
@@ -188,8 +219,18 @@ class Parser
             file_put_contents($this->basePath.'/'.$problem.'.in'.($i+1),$inout['in'][$i]);
             file_put_contents($this->basePath.'/'.$problem.'.out'.($i+1),$inout['out'][$i]);
         }
-        if(!file_exists($this->basePath.'/'.$problem.'.cpp'))
-            copy('./template/model.cpp',$this->basePath.'/'.$problem.'.cpp');
+
+        // copy template file to a problem file
+        $templateFile = './template/model.'.$this->language;
+        $problemFile = $this->basePath.'/'.$problem.'.'.$this->language;
+
+        if(!file_exists($templateFile)){
+          print "Unable to find file: ".$templateFile."\n";
+          return false;
+        }
+
+        if(!file_exists($problemFile))
+            copy($templateFile,$this->basePath.'/'.$problem.'.'.$this->language);
 
         return true;
     }

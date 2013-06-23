@@ -6,21 +6,23 @@ require 'phar://cf-parser.phar/vendor/autoload.php';
 require 'phar://cf-parser.phar/src/CodeforcesParser/Parser.php';
 
 // check number of arguments
-if ($argc <= 2) {
-    print "usage: cf-parser <contest> <directory> [<problems>]\n";
+if ($argc <= 3) {
+    print "usage: cf-parser <contest> <language> <directory> [<problems>]\n";
     exit(1);
 }
 
 // if there's more than the necessary arguments consider them problems
-if ($argc>3) {
-    for($i=3; $i < $argc; $i++)
+if ($argc>4) {
+    for($i=4; $i < $argc; $i++)
         $problems[] = $argv[$i];
 } else {
     $problems = null;
 }
 
+var_dump($argv);
+
 // create the parser instance and parse the problems
-$parser = new CodeforcesParser\Parser($argv[1], $problems, $argv[2]);
+$parser = new CodeforcesParser\Parser($argv[1], $argv[2], $argv[3], $problems);
 $parser->parse();
 
 __HALT_COMPILER();
