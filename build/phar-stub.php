@@ -19,8 +19,6 @@ if ($argc>4) {
     $problems = null;
 }
 
-var_dump($argv);
-
 // create the parser instance and parse the problems
 $parser = new CodeforcesParser\Parser($argv[1], $argv[2], $argv[3], $problems);
 $parser->parse();
